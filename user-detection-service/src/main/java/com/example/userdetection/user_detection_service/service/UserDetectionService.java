@@ -22,14 +22,13 @@ public class UserDetectionService {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    AtomicInteger counter = new AtomicInteger();
 
     public String sendUserDetectionEvent(String userId) {
 
 
-        var message = MessageBuilder.withPayload("User : " + userId)
+        var message = MessageBuilder.withPayload("User detected with userId : " + userId)
                 .setHeader(KafkaHeaders.TOPIC, topic)
-                .setHeader(KafkaHeaders.KEY, String.valueOf(counter.incrementAndGet()))
+                .setHeader(KafkaHeaders.KEY, userId)
                 .setHeader("system", "user_detection_service")
                 .build();
 
